@@ -8,5 +8,6 @@ urlpatterns = [
     path('user_feed/', views.user_feed, name='user_feed'),
     path('posts/create/', views.PostCreate.as_view(), name='post-create'),
     path('posts/<int:post_id>/', views.post_detail, name='post_detail'),
-
+    path('profile.<int:user_id>/', views.profile_detail, name='profile_detail'),
+    path('profile/edit/', views.profile_edit, name='profile_edit'),
 ]

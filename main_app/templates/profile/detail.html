@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="page-header">
+        <h1>{{ profile.name }}'s Profile</h1>
+    </div>
+
+    <p><strong>Born In:</strong> {{ profile.country_born }}</p>
+    <p><strong>Countries Lived In:</strong> {{ profile.countries_lived }}</p>
+    <p><strong>Currently Living In:</strong> {{ profile.current_country }}</p>
+
+    <a href="{% url 'profile_edit'}" class="btn secondary">Edit Profile</a>
+
+    <hr />
+    <h2>Posts by {{ profile.name }}</h2>
+    {% for post in posts %}
+        <div>
+            <h3><a href="{% url 'post_detail' post.id %}"">{{ post.title }}</a></h3>
+            <p>{{ post.body|truncatewords:25 }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}

@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import UserProfile
 from .forms import UserProfileForm
+from django.contrib.auth.models import User
 
 # Define the home view function
 class Home(LoginView):
@@ -19,8 +20,9 @@ class Home(LoginView):
 
 @login_required
 def profile_detail(request, user_id):
-    profile = UserProfile.objects.get(user__id=user_id)
-    posts = Posts.objects.filter(user=profile.user)
+    user = User.objects.get(id=user_id)
+    profile, created = UserProfile.objects.get_or_create(user=user)
+    posts = Post.objects.filter(user=profile.user)
     return render(request, 'profile/detail.html', {
         'profile': profile,
         'posts': posts
@@ -29,15 +31,16 @@ def profile_detail(request, user_id):
 @login_required
 def profile_edit(request):
     profile, created = UserProfile.objects.get_or_create(user=request.user)
-    if form.is_valid():
-        form.save()
-        return redirect('profile_detail', user_id=request.user.id)
-    else: 
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile_detail', user_id=request.user.id)
+    else:
         form = UserProfileForm(instance=profile)
-    
-    return render(request, 'profile/edit.html', {
-        'form': form
-    })
+
+    return render(request, 'profile/edit.html', {'form': form})
 
 @login_required
 def user_feed(request):
@@ -64,6 +67,8 @@ def signup(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+        # Auto creating a blank user profile here to make sure every user has one
+            UserProfile.objects.create(user=user)
             login(request, user)
             return redirect('home')
         else:

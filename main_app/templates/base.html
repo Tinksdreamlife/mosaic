@@ -24,6 +24,7 @@
               <button type="submit">Log out</button>
             </form>
           </li>
+          <li><a href="{% url 'profile_detail' user.id %}">My Profile</a></li>
           <li><a href="{% url 'user_feed' %}">All Posts</a></li>
           <li><a href="{% url 'post-create' %}">Create Post</a></li>
           {% else %}
