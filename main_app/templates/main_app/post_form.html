@@ -3,10 +3,10 @@
 {% endblock %} {% block content %}
 
 <div class="page-header">
-  {% if post %}
-  <h1>Edit {{ post.title }}</h1>
+  {% if form.instance.pk %}
+  <h1>Edit {{ form.instance.title }}</h1>
   {% else %}
-  <h1>Add a post</h1>
+  <h1>Create a New Post</h1>
   {% endif %}
 </div>
 
