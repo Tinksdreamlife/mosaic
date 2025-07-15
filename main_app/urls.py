@@ -2,6 +2,8 @@
 from django.urls import path
 from . import views
 from .views import PostUpdate, PostDelete
+from .views import GlobalFeedView
+
 
 urlpatterns = [
     path('', views.Home.as_view(), name='home'),
@@ -13,7 +15,8 @@ urlpatterns = [
     path('posts/<int:pk>/delete/', PostDelete.as_view(), name='post_delete'),   
     path('profile.<int:user_id>/', views.profile_detail, name='profile_detail'),
     path('profile/edit/', views.profile_edit, name='profile_edit'),
-
-
+    path('posts/<int:pk>/edit/', PostUpdate.as_view(), name='post_edit'),
+    path('posts/<int:pk>/delete/', PostDelete.as_view(), name='post_delete'),
+    path('global_feed/', GlobalFeedView.as_view(), name='global_feed'),
 
 ]

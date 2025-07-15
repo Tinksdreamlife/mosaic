@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from .models import Post
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import UserProfile
 from .forms import UserProfileForm
 from django.contrib.auth.models import User
@@ -45,11 +45,11 @@ def profile_edit(request):
 @login_required
 def user_feed(request):
     posts = Post.objects.filter(user=request.user)
-    return render(request, 'posts/user_feed.html', {'posts': posts})
+    return render(request, 'main_app/user_feed.html', {'posts': posts})
 
 def post_detail(request, post_id):  
     post = Post.objects.get(id=post_id)
-    return render(request, 'posts/post_detail.html', {'post': post})
+    return render(request, 'main_app/post_detail.html', {'post': post})
     
 
 class PostCreate(LoginRequiredMixin, CreateView):
@@ -77,4 +77,36 @@ def signup(request):
     context = {'form': form, 'error_message': error_message}
     return render(request, 'signup.html', context)
 
-# @login_required 
+class PostUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Post
+    fields = ['title', 'body', 'tags']
+    template_name = 'main_app/post_form.html'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+    
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == post.author
+
+    def get_queryset(self):
+        return Post.objects.filter(user=self.request.user)
+    
+class PostDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post 
+    success_url = '/'
+    template_name = 'main_app/post_confirm_delete.html'
+
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == post.author
+
+    def get_queryset(self):
+        return Post.objects.filter(user=self.request.user)
+
+class GlobalFeedView(LoginRequiredMixin, ListView):
+    model = Post
+    template_name = 'main_app/global_feed.html'
+    context_object_name = 'posts'
+    ordering = ['-created_at'] 

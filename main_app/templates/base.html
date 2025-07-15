@@ -18,6 +18,7 @@
       <nav>
         <ul>
           {% if user.is_authenticated %}
+          <li>Welcome, {{ user.username }}!</li>  
           <li>
             <form id="logout-form" method="post" action="{% url 'logout' %}">
               {% csrf_token %}
@@ -27,6 +28,7 @@
           <li><a href="{% url 'profile_detail' user.id %}">My Profile</a></li>
           <li><a href="{% url 'user_feed' %}">All Posts</a></li>
           <li><a href="{% url 'post-create' %}">Create Post</a></li>
+          <li><a href="{% url 'global_feed' %}">Global Feed</a></li>
           {% else %}
 
           <li><a href="{% url 'home' %}">Login</a></li>
