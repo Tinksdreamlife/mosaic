@@ -4,7 +4,7 @@
 
 # Inspiration
 
-After years of living, working, and dancing my way through more than 12 countries — from the U.S. to Europe to Southeast Asia — I found that most platforms claiming to "connect people globally" felt impersonal, commercialized, or overrun with spam. Authenticity was missing.
+After years of living, working, and dancing her way through more than 12 countries — from the U.S. to Europe to Southeast Asia, the creator of this app found that most platforms claiming to "connect people globally" felt impersonal, commercialized, or overrun with spam. Authenticity was missing.
 
 Mosaic was born from a desire to bring storytelling back into the way we meet each other — not through shallow swipes or algorithmic noise, but by highlighting lived experiences and the places that shape us.
 
