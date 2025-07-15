@@ -280,3 +280,18 @@ header {
 #logout-form button:hover {
   color: var(--link-hover-color);
 }
+
+.header-title {
+  font-size: var(--font-xl);
+  font-weight: 700;
+  padding-left: 20px;
+}
+
+.header-title a {
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+.header-title a:hover {
+  color: var(--link-hover-color);
+}
