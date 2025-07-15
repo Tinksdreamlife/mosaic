@@ -32,4 +32,32 @@
     {% endif %}
   </div>
 </section>
+
+<section class="comments-section">
+  <h2>Comments</h2>
+
+  <ul class="comment-list">
+    {% for comment in comments %}
+      <li class="comment">
+        <p><strong>{{ comment.user.username }}</strong> said:</p>
+        <p>{{ comment.body }}</p>
+        <small>{{ comment.created_at|date:"F j, Y, g:i a" }}</small>
+      </li>
+    {% empty %}
+      <li>No comments yet. Be the first to comment!</li>
+    {% endfor %}
+  </ul>
+
+  {% if user.is_authenticated %}
+    <h3>Leave a comment</h3>
+    <form method="POST" class="comment-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn">Post Comment</button>
+    </form>
+  {% else %}
+    <p><a href="{% url 'login' %}">Log in</a> to leave a comment.</p>
+  {% endif %}
+</section>
+
 {% endblock %}

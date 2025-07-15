@@ -1,15 +1,18 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
-from .models import Post
+from .models import Post, Comment
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import UserProfile
-from .forms import UserProfileForm
+from .forms import UserProfileForm, CommentForm
 from django.contrib.auth.models import User
+from django.contrib import messages
+from django.shortcuts import render, get_object_or_404, redirect
+
 
 # Define the home view function
 class Home(LoginView):
@@ -47,9 +50,32 @@ def user_feed(request):
     posts = Post.objects.filter(user=request.user)
     return render(request, 'main_app/user_feed.html', {'posts': posts})
 
+
 def post_detail(request, post_id):  
-    post = Post.objects.get(id=post_id)
-    return render(request, 'main_app/post_detail.html', {'post': post})
+    post = get_object_or_404(Post, id=post_id)
+    comments = post.comments.all().order_by('created_at')
+
+    if request.method == 'POST':
+        if not request.user.is_authenticated:
+            return redirect('login')
+        
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.user = request.user
+            new_comment.post = post
+            new_comment.save()
+            messages.success(request, "Your comment was posted.")
+            return redirect('post-detail', post_id=post.id)
+    else:
+        form = CommentForm()  # <–– Make sure this line exists
+
+    return render(request, 'main_app/post_detail.html', {
+        'post': post,
+        'form': form,
+        'comments': comments
+    })
+
     
 
 class PostCreate(LoginRequiredMixin, CreateView):
@@ -88,7 +114,7 @@ class PostUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     
     def test_func(self):
         post = self.get_object()
-        return self.request.user == post.author
+        return self.request.user == post.user  
 
     def get_queryset(self):
         return Post.objects.filter(user=self.request.user)
@@ -100,7 +126,7 @@ class PostDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         post = self.get_object()
-        return self.request.user == post.author
+        return self.request.user == post.user
 
     def get_queryset(self):
         return Post.objects.filter(user=self.request.user)
