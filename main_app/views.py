@@ -54,6 +54,7 @@ def user_feed(request):
 def post_detail(request, post_id):  
     post = get_object_or_404(Post, id=post_id)
     comments = post.comments.all().order_by('created_at')
+    form = CommentForm()  # ✅ ensures `form` always exists
 
     if request.method == 'POST':
         if not request.user.is_authenticated:
@@ -66,15 +67,14 @@ def post_detail(request, post_id):
             new_comment.post = post
             new_comment.save()
             messages.success(request, "Your comment was posted.")
-            return redirect('post-detail', post_id=post.id)
-    else:
-        form = CommentForm()  # <–– Make sure this line exists
+            return redirect('post_detail', post_id=post.id)
 
     return render(request, 'main_app/post_detail.html', {
         'post': post,
         'form': form,
         'comments': comments
     })
+
 
     
 
