@@ -81,13 +81,15 @@ Create/edit/delete stories (title, body, tags)
 
 - Follow users and customize your feed
 
+- Searchable tags
+
 - Private DMs
 
 - Location map visual of lived countries
 
 - Avatar/image upload
 
-- Post reactions beyond comments (e.g. "Relatable," "Funny," etc.)
+- Post reactions beyond comments (e.g. "Relatable," "Funny," etc.) or simply likes.
 
 - Filters for stories by country or tag
 
