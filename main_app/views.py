@@ -12,6 +12,9 @@ from .forms import UserProfileForm, CommentForm
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseRedirect
+from .models import Comment
 
 
 # Define the home view function
@@ -54,8 +57,8 @@ def user_feed(request):
 
 def post_detail(request, post_id):  
     post = get_object_or_404(Post, id=post_id)
-    comments = post.comments.all().order_by('created_at')
-    form = CommentForm()  # ✅ ensures `form` always exists
+    comments = post.comments.filter(parent__isnull=True).order_by('created_at')  # 👈 only top-level comments
+    form = CommentForm()
 
     if request.method == 'POST':
         if not request.user.is_authenticated:
@@ -66,6 +69,14 @@ def post_detail(request, post_id):
             new_comment = form.save(commit=False)
             new_comment.user = request.user
             new_comment.post = post
+
+            # ✅ Check for reply-to parent ID
+            parent_id = request.POST.get('parent_id')
+            if parent_id:
+                parent_comment = Comment.objects.filter(id=parent_id, post=post).first()
+                if parent_comment:
+                    new_comment.parent = parent_comment
+
             new_comment.save()
             messages.success(request, "Your comment was posted.")
             return redirect('post_detail', post_id=post.id)
@@ -77,26 +88,23 @@ def post_detail(request, post_id):
     })
 
 @login_required
-def reply_comment(request):
-    if request.method == 'Post':
-        body = request.POST.get('body')
+def reply_to_comment(request):
+    if request.method == 'POST':
         parent_id = request.POST.get('parent_id')
-
+        post_id = request.META.get('HTTP_REFERER', '/').split('/')[-2]
+        post = get_object_or_404(Post, id=post_id)
         parent_comment = get_object_or_404(Comment, id=parent_id)
-        post = parent_comment.post
 
-        Comment.objects.create(
-            post=post,
-            user=request.user,
-            body=body,
-            parent=parent_comment
-        )
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            reply = form.save(commit=False)
+            reply.user = request.user
+            reply.post = post
+            reply.parent = parent_comment
+            reply.save()
+            return redirect('post_detail', post_id=post.id)
 
-        messages.succes(request, "Reply posted successfully.")
-        return redirect('post_detail', post_id=post.id)
-    
-    else:
-        return redirect('home')
+    return redirect('home')
     
 
 class PostCreate(LoginRequiredMixin, CreateView):

@@ -53,6 +53,16 @@
           {% endif %}
         </div>
 
+      <!-- Replies to this comment -->
+      {% for reply in comment.replies.all %}
+        <div class="reply">
+          <p><strong>{{ reply.user.username }}</strong> replied:</p>
+          <p>{{ reply.body }}</p>
+          <small>{{ reply.created_at|date:"F j, Y, g:i a" }}</small>
+        </div>
+      {% endfor %}
+
+
         <div class="reply-form-container" id="reply-form-{{ comment.id }}"></div>
       </li>
     {% empty %}
@@ -85,31 +95,32 @@
 <!-- ✅ JavaScript to clone the reply form -->
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.reply-link').forEach(link => {
-      link.addEventListener('click', function (e) {
-        e.preventDefault();
+  document.querySelectorAll('.reply-link').forEach(link => {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
 
-        const commentId = this.dataset.commentId;
-        const container = document.getElementById(`reply-form-${commentId}`);
+      const commentId = this.dataset.commentId;
+      const container = document.getElementById(`reply-form-${commentId}`);
 
-        // Remove any existing reply form first
-        document.querySelectorAll('.reply-form-container').forEach(div => div.innerHTML = '');
+      if (container.innerHTML.trim() !== '') return;
 
-        // Clone the template
-        const formTemplate = document.getElementById('reply-form-template').cloneNode(true);
-        formTemplate.style.display = 'block';
-        formTemplate.id = ''; // remove duplicate ID
+      // 👇 Hide the original "Reply" link
+      this.style.display = 'none';
 
-        // Set parent_id value inside form
-        formTemplate.querySelector('input[name="parent_id"]').value = commentId;
-
-        // Optional: set form action dynamically (depends on your view route)
-        formTemplate.querySelector('form').action = `/comments/reply/`; 
-
-        // Append to container
-        container.appendChild(formTemplate);
-      });
+      const formTemplate = document.createElement('div');
+      formTemplate.innerHTML = `
+        <form method="POST" class="reply-form">
+          <input type="hidden" name="parent_id" value="${commentId}">
+          <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+          <textarea name="body" rows="2" placeholder="Write a reply..." required></textarea>
+          <button type="submit" class="action-link">Reply</button>
+        </form>
+      `;
+      formTemplate.querySelector('form').action = '/comments/reply/';
+      container.appendChild(formTemplate);
     });
   });
+});
+
 </script>
 {% endblock %}
