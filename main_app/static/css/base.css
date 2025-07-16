@@ -330,3 +330,84 @@ header {
 .edit-link:hover {
   background-color: var(--button-bg-hover);
 }
+
+.action-link {
+  font-size: var(--font-reg);
+  padding: 4px 10px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-color);
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-right: 8px;
+}
+
+.action-link:hover {
+  background-color: var(--button-bg-hover);
+}
+
+.danger-link {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.post-actions {
+  display: flex;
+  justify-content: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+/* Post detail page */
+.post-details h1 {
+  font-size: var(--font-xl);
+  margin-bottom: 0.5rem;
+}
+
+.post-body {
+  font-size: var(--font-reg);
+  line-height: 1.6;
+}
+
+.meta {
+  font-size: var(--font-l);
+  color: #555;
+}
+
+/* Optional: post preview titles on a list page */
+.post-preview h3 {
+  font-size: var(--font-xl);
+  margin-bottom: 0.3rem;
+}
+
+.post-preview p {
+  font-size: var(--font-reg);
+}
+
+.comment-list {
+  font-size: var(--font-reg);
+  padding-left: 0;
+}
+
+.comment-list .no-comments {
+  font-size: var(--font-reg);
+  font-style: italic;
+  color: #666;
+  margin-top: 10px;
+}
+
+.comment {
+  font-size: var(--font-reg);
+  margin-bottom: 1.2rem;
+}
+
+

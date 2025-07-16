@@ -26,8 +26,8 @@
 
     {% if request.user == post.user %}
       <div class="post-actions">
-        <a href="{% url 'post_edit' post.id %}" class="btn secondary">Edit</a>
-        <a href="{% url 'post_delete' post.id %}" class="btn danger">Delete</a>
+        <a href="{% url 'post_edit' post.id %}" class="action-link">Edit</a>
+        <a href="{% url 'post_delete' post.id %}" class="action-link danger-link">Delete</a>
       </div>
     {% endif %}
   </div>
@@ -44,7 +44,7 @@
         <small>{{ comment.created_at|date:"F j, Y, g:i a" }}</small>
       </li>
     {% empty %}
-      <li>No comments yet. Be the first to comment!</li>
+      <li class="no-comments">No comments yet. Be the first to comment!</li>
     {% endfor %}
   </ul>
 
@@ -53,7 +53,7 @@
     <form method="POST" class="comment-form">
       {% csrf_token %}
       {{ form.as_p }}
-      <button type="submit" class="btn">Post Comment</button>
+      <button type="submit" class="action-link">Post Comment</button>
     </form>
   {% else %}
     <p><a href="{% url 'login' %}">Log in</a> to leave a comment.</p>
