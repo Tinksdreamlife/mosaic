@@ -39,13 +39,23 @@
   <ul class="comment-list">
     {% for comment in comments %}
       <li class="comment">
-        <p><strong>{{ comment.user.username }}</strong> said:</p>
-        <p>{{ comment.body }}</p>
-        <small>{{ comment.created_at|date:"F j, Y, g:i a" }}</small>
+        <div class="comment-header">
+          <p><strong>{{ comment.user.username }}</strong> said:</p>
+          <p>{{ comment.body }}</p>
+        </div>
+
+        <div class="comment-footer">
+          <small>{{ comment.created_at|date:"F j, Y, g:i a" }}</small>
+
+          {% if user.is_authenticated %}
+            <a href="#" class="action-link reply-link" data-comment-id="{{ comment.id }}">Reply</a>
+          {% endif %}
+        </div>
       </li>
     {% empty %}
       <li class="no-comments">No comments yet. Be the first to comment!</li>
     {% endfor %}
+
   </ul>
 
   {% if user.is_authenticated %}
