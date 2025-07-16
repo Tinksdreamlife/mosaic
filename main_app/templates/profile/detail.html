@@ -8,7 +8,9 @@
     <p><strong>Countries Lived In:</strong> {{ profile.countries_lived }}</p>
     <p><strong>Currently Living In:</strong> {{ profile.current_country }}</p>
 
-    <a href="{% url 'profile_edit' %}" class="btn secondary">Edit Profile</a>
+    {% if profile.user == request.user %}
+        <a href="{% url 'profile_edit' %}" class="btn secondary">Edit Profile</a>
+    {% endif %}
 
     <hr />
     <h2>Posts by {{ profile.name }}</h2>

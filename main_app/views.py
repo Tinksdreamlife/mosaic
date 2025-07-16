@@ -23,13 +23,14 @@ class Home(LoginView):
 
 @login_required
 def profile_detail(request, user_id):
-    user = User.objects.get(id=user_id)
-    profile, created = UserProfile.objects.get_or_create(user=user)
-    posts = Post.objects.filter(user=profile.user)
+    profile_user = get_object_or_404(User, id=user_id)
+    profile, created = UserProfile.objects.get_or_create(user=profile_user)
+    posts = Post.objects.filter(user=profile_user)
     return render(request, 'profile/detail.html', {
         'profile': profile,
         'posts': posts
     })
+
 
 @login_required
 def profile_edit(request):
