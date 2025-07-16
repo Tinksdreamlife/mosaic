@@ -3,6 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" type="image/png" href="" />
@@ -12,7 +13,7 @@
   </head>
   <body>
     <header>
-      
+
       <div class="header-title">
        <a href="{% url 'home' %}">Mosaic 🌍</a>
       </div>
@@ -20,14 +21,21 @@
       <nav>
         <ul>
           {% if user.is_authenticated %}
-          <li>Welcome, {{ user.username }}!</li>  
+
+          <!-- <li>Welcome, {{ user.username }}!</li>   -->
+          <li>
+            <a href="{% url 'profile_detail' user.id %}">
+              {{ user.username|capfirst }}’s Profile
+            </a>
+          </li>
+           
           <li>
             <form id="logout-form" method="post" action="{% url 'logout' %}">
               {% csrf_token %}
               <button type="submit">Log out</button>
             </form>
           </li>
-          <li><a href="{% url 'profile_detail' user.id %}">My Profile</a></li>
+          <!-- <li><a href="{% url 'profile_detail' user.id %}">My Profile</a></li> -->
           <li><a href="{% url 'user_feed' %}">All Posts</a></li>
           <li><a href="{% url 'post-create' %}">Create Post</a></li>
           <li><a href="{% url 'global_feed' %}">Global Feed</a></li>
