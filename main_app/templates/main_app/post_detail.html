@@ -7,31 +7,34 @@
 
 {% block content %}
 <section class="post-container">
-  <div class="post-img"></div>
-  <div class="post-details">
-    <h1>{{ post.title }}</h1>
+  <div class="post-card">
+    <div class="post-img"></div>
+    <div class="post-details">
+      <h1>{{ post.title }}</h1>
 
-    <p class="meta">
-      By <a href="{% url 'profile_detail' post.user.id %}">{{ post.user.username }}</a> |
-      Posted on {{ post.created_at|date:"F j, Y" }}
-    </p>
+      <p class="meta">
+        By <a href="{% url 'profile_detail' post.user.id %}">{{ post.user.username }}</a> |
+        Posted on {{ post.created_at|date:"F j, Y" }}
+      </p>
 
-    <div class="post-body">
-      <p>{{ post.body }}</p>
-    </div>
-
-    {% if post.tags %}
-      <p class="post-tags"><strong>Tags:</strong> {{ post.tags }}</p>
-    {% endif %}
-
-    {% if request.user == post.user %}
-      <div class="post-actions">
-        <a href="{% url 'post_edit' post.id %}" class="action-link">Edit</a>
-        <a href="{% url 'post_delete' post.id %}" class="action-link danger-link">Delete</a>
+      <div class="post-body">
+        <p>{{ post.body }}</p>
       </div>
-    {% endif %}
+
+      {% if post.tags %}
+        <p class="post-tags"><strong>Tags:</strong> {{ post.tags }}</p>
+      {% endif %}
+
+      {% if request.user == post.user %}
+        <div class="post-actions">
+          <a href="{% url 'post_edit' post.id %}" class="action-link">Edit</a>
+          <a href="{% url 'post_delete' post.id %}" class="action-link danger-link">Delete</a>
+        </div>
+      {% endif %}
+    </div>
   </div>
 </section>
+
 
 <section class="comments-section">
   <h2>Comments</h2>

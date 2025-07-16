@@ -90,3 +90,16 @@
   display: inline-block;
   margin-left: auto;
 }
+
+.post-card {
+  background-color: white;
+  border-radius: var(--card-border-radius);
+  box-shadow: var(--card-box-shadow);
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+.post-card:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
