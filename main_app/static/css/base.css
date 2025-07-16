@@ -295,3 +295,37 @@ header {
 .header-title a:hover {
   color: var(--link-hover-color);
 }
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 20px;
+  flex-wrap: wrap; /* optional: for small screens */
+}
+
+.profile-header h1 {
+  font-size: var(--font-xxl);
+  margin: 0;
+  display: inline-block;
+  white-space: nowrap;
+  flex-grow: 1;
+}
+
+.edit-link {
+  font-size: var(--font-reg);
+  padding: 4px 10px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-color);
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.edit-link:hover {
+  background-color: var(--button-bg-hover);
+}
