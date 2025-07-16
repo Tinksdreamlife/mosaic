@@ -401,8 +401,11 @@ header {
 }
 
 .comment-list {
+  padding: 0;
+  list-style: none;
   font-size: var(--font-reg);
   padding-left: 0;
+  margin-top: 2rem;
 }
 
 .comment-list .no-comments {
@@ -413,8 +416,94 @@ header {
 }
 
 .comment {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: var(--card-box-shadow);
+  padding: 1.6rem;
+  margin-bottom: 1.6rem;
   font-size: var(--font-reg);
-  margin-bottom: 1.2rem;
+  position: relative;
+}
+
+.comment-header p {
+  margin: 0;
+  font-weight: 400;
+  font-size: var(--font-l);
+}
+
+.comment-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.8rem;
+  font-size: 1.2rem;
+  color: var(--secondary);
+}
+
+.comment-user {
+  font-weight: 600; /* Normal weight for a clean look */
+  color: var(--text-color);
+}
+
+.comment-form textarea {
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  padding: 0.8rem;
+  font-size: var(--font-reg);
+  width: 100%;
+  resize: vertical;
+}
+
+
+.reply {
+  margin-top: 1rem;
+  margin-left: 2.4rem;
+  background-color: #f9f6ff;
+  border-left: 3px solid var(--link-hover-color);
+  padding: 1.2rem 1.6rem 1.2rem 2.4rem;
+  border-radius: 10px;
+  font-size: var(--font-reg);
+}
+
+.reply p {
+  margin: 0;
+}
+
+.reply small {
+  color: var(--secondary);
+  font-size: 1.2rem;
+}
+
+.reply-form textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 0.8rem;
+}
+
+.reply-form button {
+  background-color: var(--submit);
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px; /* ⬅️ was 8px */
+  padding: 0.6rem 1.4rem;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: background-color 0.2s ease;
+}
+
+.reply-form button:hover {
+  background-color: #b33e87; /* slightly darker hover version of --submit */
+}
+
+
+.reply-form button:hover {
+  background-color: #ff94b6;
+}
+
+.reply-form-container {
+  margin-top: 1rem;
 }
 
 .post-card {

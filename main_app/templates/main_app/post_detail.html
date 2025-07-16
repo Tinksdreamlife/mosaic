@@ -44,7 +44,7 @@
     {% for comment in comments %}
       <li class="comment" data-comment-id="{{ commment.id }}">
         <div class="comment-header">
-          <p><strong>{{ comment.user.username }}</strong> said:</p>
+          <p><span class="comment-user">{{ comment.user.username }}</span> said:</p>
           <p>{{ comment.body }}</p>
         </div>
 
