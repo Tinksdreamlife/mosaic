@@ -48,6 +48,7 @@ Most social or cultural connection apps today suffer from:
 ## Frontend
 - Python3
 - Django
+- JavaScript
 - HTML
 - CSS
 

@@ -76,7 +76,27 @@ def post_detail(request, post_id):
         'comments': comments
     })
 
+@login_required
+def reply_comment(request):
+    if request.method == 'Post':
+        body = request.POST.get('body')
+        parent_id = request.POST.get('parent_id')
 
+        parent_comment = get_object_or_404(Comment, id=parent_id)
+        post = parent_comment.post
+
+        Comment.objects.create(
+            post=post,
+            user=request.user,
+            body=body,
+            parent=parent_comment
+        )
+
+        messages.succes(request, "Reply posted successfully.")
+        return redirect('post_detail', post_id=post.id)
+    
+    else:
+        return redirect('home')
     
 
 class PostCreate(LoginRequiredMixin, CreateView):

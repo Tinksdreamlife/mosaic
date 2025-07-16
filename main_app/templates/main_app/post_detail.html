@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block head %}
-<link rel="stylesheet" href="{% static 'css/posts/post-detail.css' %}" />
+<link rel="stylesheet" href="{% static 'css/post-detail.css' %}" />
 {% endblock %}
 
 {% block content %}
@@ -37,8 +37,9 @@
   <h2>Comments</h2>
 
   <ul class="comment-list">
+
     {% for comment in comments %}
-      <li class="comment">
+      <li class="comment" data-comment-id="{{ commment.id }}">
         <div class="comment-header">
           <p><strong>{{ comment.user.username }}</strong> said:</p>
           <p>{{ comment.body }}</p>
@@ -51,11 +52,12 @@
             <a href="#" class="action-link reply-link" data-comment-id="{{ comment.id }}">Reply</a>
           {% endif %}
         </div>
+
+        <div class="reply-form-container" id="reply-form-{{ comment.id }}"></div>
       </li>
     {% empty %}
       <li class="no-comments">No comments yet. Be the first to comment!</li>
     {% endfor %}
-
   </ul>
 
   {% if user.is_authenticated %}
@@ -70,6 +72,44 @@
   {% endif %}
 </section>
 
+<!-- ✅ Hidden reply form template with real CSRF token -->
+<div id="reply-form-template" style="display: none;">
+  <form method="POST" class="reply-form">
+    {% csrf_token %}
+    <textarea name="body" rows="2" placeholder="Write a reply..." required></textarea>
+    <input type="hidden" name="parent_id" value="">
+    <button type="submit" class="action-link">Reply</button>
+  </form>
+</div>
 
+<!-- ✅ JavaScript to clone the reply form -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.reply-link').forEach(link => {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
 
+        const commentId = this.dataset.commentId;
+        const container = document.getElementById(`reply-form-${commentId}`);
+
+        // Remove any existing reply form first
+        document.querySelectorAll('.reply-form-container').forEach(div => div.innerHTML = '');
+
+        // Clone the template
+        const formTemplate = document.getElementById('reply-form-template').cloneNode(true);
+        formTemplate.style.display = 'block';
+        formTemplate.id = ''; // remove duplicate ID
+
+        // Set parent_id value inside form
+        formTemplate.querySelector('input[name="parent_id"]').value = commentId;
+
+        // Optional: set form action dynamically (depends on your view route)
+        formTemplate.querySelector('form').action = `/comments/reply/`; 
+
+        // Append to container
+        container.appendChild(formTemplate);
+      });
+    });
+  });
+</script>
 {% endblock %}

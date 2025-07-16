@@ -20,4 +20,5 @@ urlpatterns = [
     
     path('global_feed/', GlobalFeedView.as_view(), name='global_feed'),
 
+    path('comments/reply/', views.reply_comment, name='reply_comment'),
 ]
