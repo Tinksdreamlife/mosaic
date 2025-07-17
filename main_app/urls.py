@@ -1,9 +1,6 @@
-# from django.contrib import admin
 from django.urls import path
 from . import views
-from .views import PostUpdate, PostDelete
-from .views import GlobalFeedView
-
+from .views import PostUpdate, PostDelete, GlobalFeedView
 
 urlpatterns = [
     path('', views.Home.as_view(), name='home'),
@@ -21,5 +18,4 @@ urlpatterns = [
     path('global_feed/', GlobalFeedView.as_view(), name='global_feed'),
 
     path('comments/reply/', views.reply_to_comment, name='reply_to_comment'),
-
 ]
