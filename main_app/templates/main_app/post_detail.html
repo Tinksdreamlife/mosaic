@@ -85,7 +85,7 @@
   {% endif %}
 </section>
 
-<!-- ✅ Hidden reply form template with real CSRF token -->
+<!-- Hidden reply form template with real CSRF token -->
 <div id="reply-form-template" style="display: none;">
   <form method="POST" class="reply-form">
     {% csrf_token %}
@@ -95,7 +95,7 @@
   </form>
 </div>
 
-<!-- ✅ JavaScript to clone the reply form -->
+<!-- JavaScript to clone the reply form -->
 <script>
   document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('.reply-link').forEach(link => {
@@ -107,7 +107,7 @@
 
       if (container.innerHTML.trim() !== '') return;
 
-      // 👇 Hide the original "Reply" link
+      // Hide the original "Reply" link
       this.style.display = 'none';
 
       const formTemplate = document.createElement('div');

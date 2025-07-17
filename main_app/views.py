@@ -17,9 +17,8 @@ from django.http import HttpResponseRedirect
 from .models import Comment
 
 
-# Define the home view function
+
 class Home(LoginView):
-    # Send a simple HTML response
     template_name = 'home.html'
 
 # Create your views here.
@@ -57,7 +56,7 @@ def user_feed(request):
 
 def post_detail(request, post_id):  
     post = get_object_or_404(Post, id=post_id)
-    comments = post.comments.filter(parent__isnull=True).order_by('created_at')  # 👈 only top-level comments
+    comments = post.comments.filter(parent__isnull=True).order_by('created_at')  # only top-level comments
     form = CommentForm()
 
     if request.method == 'POST':
@@ -70,7 +69,7 @@ def post_detail(request, post_id):
             new_comment.user = request.user
             new_comment.post = post
 
-            # ✅ Check for reply-to parent ID
+            # Check for reply-to parent ID
             parent_id = request.POST.get('parent_id')
             if parent_id:
                 parent_comment = Comment.objects.filter(id=parent_id, post=post).first()
