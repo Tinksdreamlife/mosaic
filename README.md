@@ -31,17 +31,14 @@ Most social or cultural connection apps today suffer from:
 
 # Screenshot
 
-**The welcome screen, where the web begins:**
+**Home Page After Logging In:**
 
-![Welcome Page](/frontend/public/images/WelcomePage.png)
+![Home Page](main_app/static/images/Home_Screen.png)
 
-(Background image edited by Tink; Spiderweb 1 Photo by <a href="/photographer/andreius-42792">Andreius</a> on <a href="/">Freeimages.com</a>)
 
-**Dashboard**
+**Global Feed**
 
-![Dashboard](/frontend/public/images/Dashboard.png)
-
-(Background image edited by Tink; source via Spiderweb 1 Photo by <a href="/photographer/andreius-42792">Andreius</a> on <a href="/">Freeimages.com</a>)
+![Global Feed](main_app/static/images/Global_Feed.png)
 
 # 🔧 Tech Stack
 
@@ -62,7 +59,7 @@ Most social or cultural connection apps today suffer from:
 
 # Getting Started
 
-Try the live demo here: Silken Web Demo ([The Silken Web on Heroku](https://silkenweb-9989575de358.herokuapp.com/)) 
+Try the live demo here: Mosaic ([Mosaic on Heroku](https://mosaic-tink-f92e839aa954.herokuapp.com)) 
 
 # 🚀 MVP Features
 
